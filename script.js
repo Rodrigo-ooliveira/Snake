@@ -1,13 +1,14 @@
-// function create Background
-
+let timer = 1000
 let canvas = document.getElementById("snake")
 let context = canvas.getContext("2d")
 let box = 32;
 let snake = []
+
 snake[0] = {
     x: 8 * box,
     y: 8 * box
 }
+
 let direction = "right"
 
 let food = {
@@ -15,20 +16,17 @@ let food = {
     y: Math.floor(Math.random() * 15 + 1) * box
 }
 
-
 function createBG() {
-    context.fillStyle = "lightgreen"
-    context.fillRect(0, 0, 16 * box, 16 * box)
+    let bgImg = new Image()
+    bgImg.src = "images/gramado.jpg"
+    context.drawImage(bgImg, 0, 0)
 }
-
-// Function create snake
 
 function createSnake() {
     for(i = 0; i < snake.length; i++) {
         context.fillStyle = "green"
         context.fillRect(snake[i].x, snake[i].y, box, box)
     }
-
 }
 
 function drawFood() {
@@ -52,6 +50,13 @@ function playGame() {
     if(snake[0].y > 15 * box && direction == "down") snake[0].y = 0
     if(snake[0].y < 0 && direction == "up") snake[0].y = 16 * box
 
+    for(i = 1; i < snake.length; i ++) {
+        if(snake[0].x == snake[i].x && snake[0].y == snake[i].y) {
+            setInterval(game)
+            alert("Game Over!!")
+        }
+    }
+
     createBG()
     createSnake()
     drawFood()
@@ -71,7 +76,6 @@ function playGame() {
         food.y = Math.floor(Math.random() * 15 + 1) * box
     }
 
-
     let newHead = {
         x: snakeX,
         y: snakeY
@@ -82,8 +86,6 @@ function playGame() {
         y: snakeY
     }
     snake.unshift(newHead)
-
-
 }
 
-let game = setInterval(playGame, 100)
+let game = setInterval(playGame, 150)
